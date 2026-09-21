@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Para Karina (Mi Chispita 💥) 🌻✨</title>
+
+  <!-- Fuentes Elegantes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold-primary: #facc15;
+      --gold-light: #fef08a;
+      --gold-dark: #ca8a04;
+      --bg-dark: #030712;
+      --glass-bg: rgba(15, 23, 42, 0.95);
+      --glass-border: rgba(250, 204, 21, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body, html {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-dark);
+      color: #fff;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: radial-gradient(circle at 50% 50%, #0f172a 0%, #030712 100%);
+      pointer-events: none;
+    }
+
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      will-change: transform;
+    }
+
+    /* ==========================================
+       1. SOBRE INICIAL CON SELLO DE CERA 3D
+       ========================================== */
+    .envelope-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 1500;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: rgba(3, 7, 18, 0.98);
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+      perspective: 1000px;
+      padding: 20px;
+    }
+
+    .envelope-screen.opened {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .envelope-wrapper {
+      position: relative;
+      width: 310px;
+      height: 210px;
+      background: #1e293b;
+      border-radius: 16px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(250, 204, 21, 0.25);
+      border: 1px solid var(--glass-border);
+      perspective: 1000px;
+      cursor: pointer;
+      transform-style: preserve-3d;
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 155px solid transparent;
+      border-right: 155px solid transparent;
+      border-top: 120px solid #334155;
+      transform-origin: top;
+      transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 4;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5));
+    }
+
+    .envelope-flap.open {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .envelope-body {
+      position: absolute;
+      inset: 0;
+      border-left: 155px solid #0f172a;
+      border-right: 155px solid #0f172a;
+      border-bottom: 110px solid #1e293b;
+      border-radius: 16px;
+      z-index: 3;
+    }
+
+    .wax-seal {
+      position: absolute;
+      top: 100px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 72px;
+      height: 72px;
+      background: radial-gradient(circle, #fde047 0%, #ca8a04 70%, #854d0e 100%);
+      border-radius: 50%;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), inset 0 2px 4px rgba(255, 255, 255, 0.5), 0 0 25px rgba(250, 204, 21, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      z-index: 5;
+      cursor: pointer;
+      transition: transform 0.3s ease, opacity 0.4s ease;
+      animation: pulseSeal 2s infinite;
+    }
+
+    @keyframes pulseSeal {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 20px rgba(250, 204, 21, 0.5); }
+      50% { transform: translate(-50%, -50%) scale(1.08); box-shadow: 0 0 35px rgba(250, 204, 21, 0.8); }
+    }
+
+    .wax-seal-text {
+      margin-top: 35px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      color: var(--gold-primary);
+      text-align: center;
+      text-shadow: 0 0 12px rgba(250, 204, 21, 0.5);
+      animation: fadeInDown 1s ease;
+    }
+
+    /* ==========================================
+       2. VISTA PRINCIPAL & TARJETA
+       ========================================== */
+    .viewport {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      perspective: 1000px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s;
+    }
+
+    .viewport.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .title-banner {
+      text-align: center;
+      margin-bottom: 18px;
+      animation: fadeInDown 0.8s ease;
+    }
+
+    .title-banner h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2.6rem, 8vw, 3.8rem);
+      background: linear-gradient(90deg, #fef08a, #facc15, #ffffff, #facc15, #fef08a);
+      background-size: 200% auto;
+      color: transparent;
+      -webkit-background-clip: text;
+      animation: shimmerText 4s linear infinite;
+      line-height: 1.1;
+      filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.4));
+    }
+
+    @keyframes shimmerText {
+      to { background-position: 200% center; }
+    }
+
+    .title-banner p {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      font-weight: 300;
+      letter-spacing: 1.5px;
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+
+    .card-container {
+      position: relative;
+      width: 100%;
+      max-width: 350px;
+      height: 450px;
+      border-radius: 28px;
+      padding: 2px;
+      background: linear-gradient(135deg, #fef08a, #ca8a04, #fde047);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(250, 204, 21, 0.25);
+      transition: transform 0.15s ease-out;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .card-body {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #0f172a;
+      border-radius: 26px;
+      overflow: hidden;
+    }
+
+    .scratch-indicator {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--glass-border);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: var(--gold-primary);
+      backdrop-filter: blur(6px);
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      font-weight: 600;
+    }
+
+    .card-secret {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .secret-icon {
+      font-size: 3.5rem;
+      margin-bottom: 12px;
+      animation: floatHeart 3s ease-in-out infinite;
+      filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.5));
+    }
+
+    @keyframes floatHeart {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-10px) scale(1.05); }
+    }
+
+    .secret-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.2rem;
+      color: var(--gold-primary);
+      margin-bottom: 8px;
+    }
+
+    .secret-msg {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+      margin-bottom: 22px;
+    }
+
+    .wax-seal-btn {
+      background: linear-gradient(135deg, #fde047 0%, #ca8a04 100%);
+      border: none;
+      color: #3a1a04;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(234, 179, 8, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      animation: pulseBtn 2s infinite;
+    }
+
+    @keyframes pulseBtn {
+      0% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.6); }
+      70% { box-shadow: 0 0 0 16px rgba(250, 204, 21, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(250, 204, 21, 0); }
+    }
+
+    .wax-seal-btn:active {
+      transform: scale(0.95);
+    }
+
+    #scratch-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      touch-action: none;
+      cursor: pointer;
+      transition: opacity 0.6s ease;
+    }
+
+    .music-player-card {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 100;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      padding: 8px 14px;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+
+    .music-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gold-primary);
+    }
+
+    .music-sub {
+      font-size: 0.65rem;
+      color: #94a3b8;
+      display: block;
+    }
+
+    .visualizer-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 14px;
+    }
+
+    .bar {
+      width: 3px;
+      background: var(--gold-primary);
+      border-radius: 2px;
+      height: 4px;
+    }
+
+    .playing .bar:nth-child(1) { animation: soundBar 0.6s infinite alternate ease-in-out; }
+    .playing .bar:nth-child(2) { animation: soundBar 0.8s infinite alternate ease-in-out 0.2s; }
+    .playing .bar:nth-child(3) { animation: soundBar 0.5s infinite alternate ease-in-out 0.4s; }
+
+    @keyframes soundBar {
+      0% { height: 3px; }
+      100% { height: 14px; }
+    }
+
+    /* ==========================================
+       3. MODAL DE CARTA Y POLAROID
+       ========================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 7, 18, 0.96);
+      z-index: 2000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #modal-flower-box {
+      position: absolute;
+      inset: 0;
+      z-index: 2005;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .modal-floating-flower {
+      position: absolute;
+      pointer-events: none;
+      animation: modalFloatSway 6s linear forwards;
+      will-change: transform, opacity;
+    }
+
+    @keyframes modalFloatSway {
+      0% {
+        transform: translateY(105vh) rotate(0deg);
+        opacity: 0;
+      }
+      20% { opacity: 0.9; }
+      80% { opacity: 0.9; }
+      100% {
+        transform: translateY(-10vh) rotate(180deg);
+        opacity: 0;
+      }
+    }
+
+    .modal-box {
+      position: relative;
+      z-index: 2010;
+      background: #0f172a;
+      border: 1px solid var(--glass-border);
+      padding: 24px 20px;
+      border-radius: 24px;
+      max-width: 420px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.9), 0 0 30px rgba(250, 204, 21, 0.15);
+      transform: scale(0.95) translate3d(0,0,0);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-backdrop.active .modal-box {
+      transform: scale(1) translate3d(0,0,0);
+    }
+
+    .polaroid-frame {
+      background: #fff;
+      padding: 8px 8px 20px 8px;
+      border-radius: 8px;
+      transform: rotate(-2deg);
+      margin: 12px auto 18px auto;
+      max-width: 180px;
+      text-align: center;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .polaroid-frame:hover {
+      transform: rotate(0deg) scale(1.03);
+    }
+
+    .polaroid-img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 4px;
+      background: #1e293b;
+    }
+
+    .polaroid-caption {
+      font-family: 'Caveat', cursive;
+      color: #334155;
+      font-size: 1.15rem;
+      margin-top: 4px;
+      font-weight: 700;
+    }
+
+    .typewriter-text {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      color: #f1f5f9;
+      line-height: 1.5;
+      text-align: left;
+    }
+
+    .highlight-gold {
+      color: var(--gold-primary);
+      font-weight: 700;
+      text-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
+    }
+
+    .typewriter-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.2em;
+      background-color: var(--gold-primary);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 0.7s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow"></div>
+
+  <!-- Audio MP3 Local -->
+  <audio id="bg-music" src="cancion.mp3" preload="auto" loop></audio>
+
+  <!-- Pantalla Inicial: Sobre Real con Sello de Cera 3D -->
+  <div id="envelopeScreen" class="envelope-screen">
+    <div class="envelope-wrapper" id="envelopeWrapper">
+      <div class="envelope-flap" id="envelopeFlap"></div>
+      <div class="envelope-body"></div>
+      <div class="wax-seal" id="waxSeal">🌻</div>
+    </div>
+    <div class="wax-seal-text">Toca el sello de cera para abrir tu regalo, Karina ✉️✨</div>
+  </div>
+
+  <!-- Reproductor de Música UI -->
+  <div id="music-player" class="music-player-card">
+    <div class="visualizer-bars" id="visualizer">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+    <div>
+      <span class="music-title">Flores Amarillas ✨</span>
+      <span class="music-sub" id="music-status">Toca para reproducir</span>
+    </div>
+  </div>
+
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="viewport" id="mainViewport">
+    <div class="title-banner">
+      <h1>¡Para Karina! 💥✨</h1>
+      <p>Rasca la tarjeta dorada, mi chispita 🌻</p>
+    </div>
+
+    <div class="card-container" id="cardContainer">
+      <div class="card-body">
+        
+        <div id="scratchProgress" class="scratch-indicator">Progreso: <span>0%</span></div>
+
+        <div class="card-secret">
+          <div class="secret-icon">🌻💥💛</div>
+          <h2 class="secret-title">¡Para mi chispita Karina!</h2>
+          <p class="secret-msg">
+            Un detalle preparado con mucho cariño para ti, Karina. Porque con tu presencia iluminas todo alrededor. ✨
+          </p>
+          <button id="btn-open-modal" class="wax-seal-btn">✉️ Abrir tu carta especial</button>
+        </div>
+
+        <canvas id="scratch-canvas"></canvas>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="modal" class="modal-backdrop">
+    <div id="modal-flower-box"></div>
+
+    <div class="modal-box" id="modalBox">
+      <h2 style="color: var(--gold-primary); font-family: 'Dancing Script', cursive; font-size: 2.2rem; margin-bottom: 8px; text-align: center;">Para Karina (Mi Chispita 💥) 💛</h2>
+      
+      <div class="polaroid-frame">
+        <img src="https://images.unsplash.com/photo-1597848212624-a19eb35e2651?q=80&w=400&auto=format&fit=crop" alt="Flores Amarillas" class="polaroid-img">
+        <div class="polaroid-caption">Karina, siempre brillas 💥✨</div>
+      </div>
+
+      <div class="typewriter-text">
+        <span id="typewriter-content"></span><span id="typewriter-cursor" class="typewriter-cursor"></span>
+      </div>
+
+      <div style="text-align: center; margin-top: 24px; padding-bottom: 8px;">
+        <button id="btn-close-modal" class="wax-seal-btn">✨ Toca para cerrar 🌻</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================
+       1. AUDIO CON SINTETIZADOR WEB AUDIO API
+       ========================================== */
+    let audioCtx = null;
+    let lastAudioTime = 0;
+    let synthNotesInterval = null;
+
+    const bgMusic = document.getElementById('bg-music');
+    const musicPlayer = document.getElementById('music-player');
+    const musicStatus = document.getElementById('music-status');
+    let isPlaying = false;
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playMagicChime() {
+      if (!audioCtx) return;
+      const notes = [523.25, 659.25, 783.99, 1046.50];
+      notes.forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.08);
+        gain.gain.setValueAtTime(0.001, audioCtx.currentTime + idx * 0.08);
+        gain.gain.linearRampToValueAtTime(0.02, audioCtx.currentTime + idx * 0.08 + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + idx * 0.08 + 0.6);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(audioCtx.currentTime + idx * 0.08);
+        osc.stop(audioCtx.currentTime + idx * 0.08 + 0.6);
+      });
+    }
+
+    function playSyntheticChimeNote() {
+      if (!audioCtx || !isPlaying) return;
+      const notes = [261.63, 329.63, 392.00, 440.00, 523.25, 659.25];
+      const freq = notes[Math.floor(Math.random() * notes.length)];
+      
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.015, audioCtx.currentTime + 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.2);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 1.2);
+    }
+
+    function startMusicAutomatically() {
+      initAudioContext();
+      bgMusic.play().then(() => {
+        isPlaying = true;
+        musicPlayer.classList.add('playing');
+        musicStatus.textContent = 'Sonando 🎵';
+      }).catch(() => {
+        isPlaying = true;
+        musicPlayer.classList.add('playing');
+        musicStatus.textContent = 'Modo ambiente 🎵';
+        if (!synthNotesInterval) {
+          synthNotesInterval = setInterval(playSyntheticChimeNote, 800);
+        }
+      });
+    }
+
+    function toggleMusicManual() {
+      initAudioContext();
+      if (isPlaying) {
+        bgMusic.pause();
+        if (synthNotesInterval) {
+          clearInterval(synthNotesInterval);
+          synthNotesInterval = null;
+        }
+        isPlaying = false;
+        musicPlayer.classList.remove('playing');
+        musicStatus.textContent = 'Pausado';
+      } else {
+        startMusicAutomatically();
+      }
+    }
+
+    musicPlayer.addEventListener('click', toggleMusicManual);
+
+    function playScratchSound() {
+      const now = Date.now();
+      if (now - lastAudioTime < 70) return;
+      lastAudioTime = now;
+
+      if (!audioCtx) return;
+      const bufferSize = audioCtx.sampleRate * 0.02; 
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+      }
+
+      const noise = audioCtx.createBufferSource();
+      noise.buffer = buffer;
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0.02, audioCtx.currentTime);
+
+      noise.connect(gain);
+      gain.connect(audioCtx.destination);
+      noise.start();
+    }
+
+    function playTypewriterKeySound() {
+      const now = Date.now();
+      if (now - lastAudioTime < 90) return;
+      lastAudioTime = now;
+
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(380, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.01, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.02);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.02);
+    }
+
+    function playPopSound() {
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(580, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.08);
+    }
+
+    /* ==========================================
+       2. INTERACCIÓN DEL SOBRE INICIAL
+       ========================================== */
+    const envelopeScreen = document.getElementById('envelopeScreen');
+    const envelopeFlap = document.getElementById('envelopeFlap');
+    const waxSeal = document.getElementById('waxSeal');
+    const mainViewport = document.getElementById('mainViewport');
+
+    function openEnvelope() {
+      initAudioContext();
+      playMagicChime();
+
+      // Ruptura de sello y fuegos artificiales
+      const rect = waxSeal.getBoundingClientRect();
+      spawnFlowerFireworks(rect.left + rect.width / 2, rect.top + rect.height / 2, 25);
+      waxSeal.style.opacity = '0';
+
+      // Apertura 3D de solapa
+      setTimeout(() => {
+        envelopeFlap.classList.add('open');
+      }, 200);
+
+      // Transición al regalo principal
+      setTimeout(() => {
+        envelopeScreen.classList.add('opened');
+        mainViewport.classList.add('visible');
+      }, 700);
+    }
+
+    waxSeal.addEventListener('click', openEnvelope);
+    document.getElementById('envelopeWrapper').addEventListener('click', openEnvelope);
+
+    /* ==========================================
+       3. CANVAS CON RASTRO MÁGICO (TRAIL)
+       ========================================== */
+    const bgCanvas = document.getElementById('bg-canvas');
+    const bgCtx = bgCanvas.getContext('2d');
+    let stars = [];
+    let particles = [];
+    let petals = [];
+    let trail = [];
+
+    function resizeBg() {
+      bgCanvas.width = window.innerWidth;
+      bgCanvas.height = window.innerHeight;
+      initStars();
+      initPetals();
+    }
+
+    function initStars() {
+      stars = [];
+      for (let i = 0; i < 30; i++) {
+        stars.push({
+          x: Math.random() * bgCanvas.width,
+          y: Math.random() * bgCanvas.height,
+          size: Math.random() * 2 + 0.5,
+          alpha: Math.random(),
+          speed: Math.random() * 0.02 + 0.005
+        });
+      }
+    }
+
+    function initPetals() {
+      petals = [];
+      for (let i = 0; i < 10; i++) {
+        petals.push({
+          x: Math.random() * bgCanvas.width,
+          y: Math.random() * bgCanvas.height,
+          size: Math.random() * 10 + 10,
+          speedY: Math.random() * 0.7 + 0.3,
+          speedX: Math.random() * 0.4 - 0.2,
+          rotation: Math.random() * 360,
+          rotSpeed: Math.random() * 1.5 - 0.75,
+          emoji: ['🌻', '💛', '✨'][Math.floor(Math.random() * 3)]
+        });
+      }
+    }
+
+    function addTrailSparkle(x, y) {
+      if (trail.length > 20) trail.shift();
+      trail.push({
+        x: x,
+        y: y,
+        size: Math.random() * 10 + 10,
+        alpha: 1,
+        emoji: ['✨', '🌟', '💛'][Math.floor(Math.random() * 3)]
+      });
+    }
+
+    function spawnFlowerFireworks(x, y, count = 18) {
+      const floralEmojis = ['🌻', '🌼', '💥', '✨', '💛'];
+      const posX = x || bgCanvas.width / 2;
+      const posY = y || bgCanvas.height / 2;
+
+      if (particles.length > 40) particles.splice(0, 15);
+
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: posX,
+          y: posY,
+          vx: (Math.random() - 0.5) * 12,
+          vy: (Math.random() - 0.5) * 12,
+          size: Math.random() * 16 + 14,
+          emoji: floralEmojis[Math.floor(Math.random() * floralEmojis.length)],
+          alpha: 1
+        });
+      }
+    }
+
+    function renderBg() {
+      bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+
+      // Estrellas
+      stars.forEach(s => {
+        s.alpha += s.speed;
+        if (s.alpha > 1 || s.alpha < 0.2) s.speed = -s.speed;
+        bgCtx.fillStyle = `rgba(250, 204, 21, ${s.alpha})`;
+        bgCtx.beginPath();
+        bgCtx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        bgCtx.fill();
+      });
+
+      // Rastro de chispas
+      for (let i = trail.length - 1; i >= 0; i--) {
+        const t = trail[i];
+        t.alpha -= 0.04;
+        if (t.alpha <= 0) {
+          trail.splice(i, 1);
+        } else {
+          bgCtx.globalAlpha = t.alpha;
+          bgCtx.font = `${t.size}px sans-serif`;
+          bgCtx.fillText(t.emoji, t.x, t.y);
+          bgCtx.globalAlpha = 1;
+        }
+      }
+
+      // Pétalos
+      petals.forEach(p => {
+        p.y += p.speedY;
+        p.x += Math.sin(p.y * 0.01) + p.speedX;
+        p.rotation += p.rotSpeed;
+
+        if (p.y > bgCanvas.height + 20) {
+          p.y = -20;
+          p.x = Math.random() * bgCanvas.width;
+        }
+
+        bgCtx.save();
+        bgCtx.translate(p.x, p.y);
+        bgCtx.rotate((p.rotation * Math.PI) / 180);
+        bgCtx.font = `${p.size}px sans-serif`;
+        bgCtx.fillText(p.emoji, -p.size / 2, p.size / 2);
+        bgCtx.restore();
+      });
+
+      // Fuegos artificiales
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.15;
+        p.alpha -= 0.022;
+
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+        } else {
+          bgCtx.globalAlpha = p.alpha;
+          bgCtx.font = `${p.size}px sans-serif`;
+          bgCtx.fillText(p.emoji, p.x, p.y);
+          bgCtx.globalAlpha = 1;
+        }
+      }
+
+      requestAnimationFrame(renderBg);
+    }
+
+    window.addEventListener('resize', resizeBg);
+    resizeBg();
+    renderBg();
+
+    let lastTrailTime = 0;
+    window.addEventListener('pointermove', (e) => {
+      const now = Date.now();
+      if (now - lastTrailTime > 40) {
+        addTrailSparkle(e.clientX, e.clientY);
+        lastTrailTime = now;
+      }
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target.closest('#scratch-canvas') || e.target.closest('#btn-open-modal') || e.target.closest('#modalBox') || e.target.closest('#envelopeScreen')) return;
+      spawnFlowerFireworks(e.clientX, e.clientY, 6);
+    });
+
+    /* ==========================================
+       4. EFECTO PARALLAX 3D
+       ========================================== */
+    const cardContainer = document.getElementById('cardContainer');
+    let ticking3D = false;
+
+    function handleMove(clientX, clientY) {
+      const rect = cardContainer.getBoundingClientRect();
+      const x = clientX - rect.left - rect.width / 2;
+      const y = clientY - rect.top - rect.height / 2;
+
+      const rotX = (y / (rect.height / 2)) * -10;
+      const rotY = (x / (rect.width / 2)) * 10;
+
+      cardContainer.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) translate3d(0,0,0)`;
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      if (!ticking3D) {
+        window.requestAnimationFrame(() => {
+          handleMove(e.clientX, e.clientY);
+          ticking3D = false;
+        });
+        ticking3D = true;
+      }
+    });
+
+    window.addEventListener('mouseleave', () => {
+      cardContainer.style.transform = 'rotateX(0deg) rotateY(0deg) translate3d(0,0,0)';
+    });
+
+    /* ==========================================
+       5. CANVAS RASPABLE CON INDICADOR DE PROGRESO
+       ========================================== */
+    const scratchCanvas = document.getElementById('scratch-canvas');
+    const scratchCtx = scratchCanvas.getContext('2d');
+    const scratchProgress = document.getElementById('scratchProgress');
+
+    let isDrawing = false;
+    let lastPos = null;
+    let isRevealed = false;
+    let scratchStrokesCount = 0;
+
+    function initScratchCanvas() {
+      const rect = cardContainer.getBoundingClientRect();
+      scratchCanvas.width = rect.width;
+      scratchCanvas.height = rect.height;
+
+      const grad = scratchCtx.createLinearGradient(0, 0, rect.width, rect.height);
+      grad.addColorStop(0, '#fef08a');
+      grad.addColorStop(0.5, '#ca8a04');
+      grad.addColorStop(1, '#854d0e');
+
+      scratchCtx.fillStyle = grad;
+      scratchCtx.fillRect(0, 0, rect.width, rect.height);
+
+      scratchCtx.fillStyle = '#3a1a04';
+      scratchCtx.font = 'bold 16px Poppins, sans-serif';
+      scratchCtx.textAlign = 'center';
+      scratchCtx.fillText('✨ Rasca aquí con tu dedo ✨', rect.width / 2, rect.height / 2);
+    }
+
+    window.addEventListener('load', initScratchCanvas);
+
+    function getPos(e) {
+      const rect = scratchCanvas.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      return { x: clientX - rect.left, y: clientY - rect.top, globalX: clientX, globalY: clientY };
+    }
+
+    function scratchLine(from, to) {
+      if (isRevealed) return;
+
+      scratchCtx.globalCompositeOperation = 'destination-out';
+      scratchCtx.lineWidth = 55;
+      scratchCtx.lineCap = 'round';
+
+      scratchCtx.beginPath();
+      scratchCtx.moveTo(from.x, from.y);
+      scratchCtx.lineTo(to.x, to.y);
+      scratchCtx.stroke();
+
+      playScratchSound();
+
+      if (Math.random() > 0.6) {
+        spawnFlowerFireworks(to.globalX, to.globalY, 1);
+      }
+
+      scratchStrokesCount++;
+      const percent = Math.min(100, Math.floor((scratchStrokesCount / 35) * 100));
+      scratchProgress.querySelector('span').textContent = `${percent}%`;
+
+      if (scratchStrokesCount > 35) {
+        isRevealed = true;
+        scratchCanvas.style.opacity = '0';
+        scratchProgress.style.opacity = '0';
+        setTimeout(() => {
+          scratchCanvas.remove();
+          scratchProgress.remove();
+        }, 600);
+        
+        playMagicChime();
+        startMusicAutomatically();
+        spawnFlowerFireworks(window.innerWidth / 2, window.innerHeight / 2, 35);
+      }
+    }
+
+    scratchCanvas.addEventListener('mousedown', (e) => {
+      initAudioContext();
+      isDrawing = true;
+      lastPos = getPos(e);
+      scratchLine(lastPos, lastPos);
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDrawing) return;
+      const currentPos = getPos(e);
+      scratchLine(lastPos, currentPos);
+      lastPos = currentPos;
+    });
+
+    window.addEventListener('mouseup', () => isDrawing = false);
+
+    scratchCanvas.addEventListener('touchstart', (e) => {
+      initAudioContext();
+      isDrawing = true;
+      lastPos = getPos(e);
+      scratchLine(lastPos, lastPos);
+      e.preventDefault();
+    }, { passive: false });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!isDrawing) return;
+      const currentPos = getPos(e);
+      scratchLine(lastPos, currentPos);
+      lastPos = currentPos;
+    }, { passive: false });
+
+    window.addEventListener('touchend', () => isDrawing = false);
+
+    /* ==========================================
+       6. MÁQUINA DE ESCRIBIR & CARTA OPCIÓN B
+       ========================================== */
+    const btnOpenModal = document.getElementById('btn-open-modal');
+    const btnCloseModal = document.getElementById('btn-close-modal');
+    const modal = document.getElementById('modal');
+    const modalBox = document.getElementById('modalBox');
+    const modalFlowerBox = document.getElementById('modal-flower-box');
+    const typewriterContent = document.getElementById('typewriter-content');
+    const typewriterCursor = document.getElementById('typewriter-cursor');
+
+    let modalFlowerInterval = null;
+    let typewriterTimeout = null;
+
+    const letterSegments = [
+      { text: "Para Karina, mi chispita 💥. Tu valentía para seguir sonriendo, incluso cuando los días pesan más de la cuenta, habla de lo ", gold: false },
+      { text: "hermoso que es tu corazón", gold: true },
+      { text: ". No necesitas demostrar nada ni ser perfecta; tus días grises también merecen ", gold: false },
+      { text: "paciencia, abrazos y calma", gold: true },
+      { text: ".\n\nQue estas flores amarillas te recuerden siempre lo mucho que vales y que mereces ", gold: false },
+      { text: "cosas bonitas que jamás duelan", gold: true },
+      { text: ". Gracias por dejarme estar cerca y ", gold: false },
+      { text: "conocer la increíble persona que eres.", gold: true },
+      { text: " 🌻💥✨", gold: false }
+    ];
+
+    function startOrganicTypewriter(segments) {
+      typewriterContent.innerHTML = '';
+      typewriterCursor.style.display = 'inline-block';
+      modalBox.scrollTop = 0;
+      
+      let segIdx = 0;
+      let charIdx = 0;
+      let currentSpan = null;
+
+      function typeChar() {
+        if (segIdx >= segments.length) {
+          typewriterCursor.style.display = 'none';
+          return;
+        }
+
+        const segment = segments[segIdx];
+
+        if (charIdx === 0) {
+          currentSpan = document.createElement('span');
+          if (segment.gold) currentSpan.className = 'highlight-gold';
+          typewriterContent.appendChild(currentSpan);
+        }
+
+        const char = segment.text.charAt(charIdx);
+
+        if (char === '\n') {
+          currentSpan.appendChild(document.createElement('br'));
+        } else {
+          currentSpan.appendChild(document.createTextNode(char));
+          playTypewriterKeySound();
+        }
+
+        modalBox.scrollTop = modalBox.scrollHeight;
+        charIdx++;
+
+        let delay = 28;
+        if (char === '.' || char === '\n') delay = 350;
+
+        if (charIdx < segment.text.length) {
+          typewriterTimeout = setTimeout(typeChar, delay);
+        } else {
+          segIdx++;
+          charIdx = 0;
+          typewriterTimeout = setTimeout(typeChar, delay);
+        }
+      }
+
+      typeChar();
+    }
+
+    function spawnModalFlower() {
+      if (modalFlowerBox.children.length >= 6) return;
+
+      const flower = document.createElement('div');
+      flower.className = 'modal-floating-flower';
+      flower.textContent = ['🌻', '🌼', '💥', '💛', '✨'][Math.floor(Math.random() * 5)];
+      flower.style.left = Math.random() * 90 + 'vw';
+      flower.style.fontSize = (Math.random() * 10 + 18) + 'px';
+
+      modalFlowerBox.appendChild(flower);
+      setTimeout(() => flower.remove(), 6000);
+    }
+
+    function closeModal() {
+      playPopSound();
+
+      modal.classList.remove('active');
+      clearInterval(modalFlowerInterval);
+      clearTimeout(typewriterTimeout);
+      modalFlowerBox.innerHTML = '';
+
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+
+      spawnFlowerFireworks(w * 0.5, h * 0.4, 25);
+      setTimeout(() => spawnFlowerFireworks(w * 0.25, h * 0.5, 15), 120);
+      setTimeout(() => spawnFlowerFireworks(w * 0.75, h * 0.5, 15), 240);
+    }
+
+    btnOpenModal.addEventListener('click', (e) => {
+      initAudioContext();
+      playMagicChime();
+      if (!isPlaying) startMusicAutomatically();
+
+      const rect = e.target.getBoundingClientRect();
+      spawnFlowerFireworks(rect.left + rect.width / 2, rect.top + rect.height / 2, 20);
+
+      modal.classList.add('active');
+      modalFlowerInterval = setInterval(spawnModalFlower, 900);
+      clearTimeout(typewriterTimeout);
+      startOrganicTypewriter(letterSegments);
+    });
+
+    btnCloseModal.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
