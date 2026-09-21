@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Para Karina (Mi Chispita 💥) 🌻✨</title>
+  <title>Para Yirelkis Naza 🌻✨</title>
 
   <!-- Fuentes Elegantes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -528,7 +528,7 @@
       <div class="envelope-body"></div>
       <div class="wax-seal" id="waxSeal">🌻</div>
     </div>
-    <div class="wax-seal-text">Toca el sello de cera para abrir tu regalo, Karina ✉️✨</div>
+    <div class="wax-seal-text">Toca el sello de cera para abrir tu regalo, Yirelkis ✉️✨</div>
   </div>
 
   <!-- Reproductor de Música UI -->
@@ -548,8 +548,8 @@
 
   <div class="viewport" id="mainViewport">
     <div class="title-banner">
-      <h1>¡Para Karina! 💥✨</h1>
-      <p>Rasca la tarjeta dorada, mi chispita 🌻</p>
+      <h1>¡Para Yirelkis Naza! 🌻✨</h1>
+      <p>Rasca la tarjeta dorada para ti ✨</p>
     </div>
 
     <div class="card-container" id="cardContainer">
@@ -558,12 +558,12 @@
         <div id="scratchProgress" class="scratch-indicator">Progreso: <span>0%</span></div>
 
         <div class="card-secret">
-          <div class="secret-icon">🌻💥💛</div>
-          <h2 class="secret-title">¡Para mi chispita Karina!</h2>
+          <div class="secret-icon">🌻✨💛</div>
+          <h2 class="secret-title">¡Para ti, Yirelkis!</h2>
           <p class="secret-msg">
-            Un detalle preparado con mucho cariño para ti, Karina. Porque con tu presencia iluminas todo alrededor. ✨
+            Un detalle preparado especialmente para ti, porque siempre serás una persona muy especial. ✨
           </p>
-          <button id="btn-open-modal" class="wax-seal-btn">✉️ Abrir tu carta especial</button>
+          <button id="btn-open-modal" class="wax-seal-btn">✉️ Abrir carta especial</button>
         </div>
 
         <canvas id="scratch-canvas"></canvas>
@@ -576,11 +576,11 @@
     <div id="modal-flower-box"></div>
 
     <div class="modal-box" id="modalBox">
-      <h2 style="color: var(--gold-primary); font-family: 'Dancing Script', cursive; font-size: 2.2rem; margin-bottom: 8px; text-align: center;">Para Karina (Mi Chispita 💥) 💛</h2>
+      <h2 style="color: var(--gold-primary); font-family: 'Dancing Script', cursive; font-size: 2.2rem; margin-bottom: 8px; text-align: center;">Para Yirelkis Naza 💛</h2>
       
       <div class="polaroid-frame">
         <img src="https://images.unsplash.com/photo-1597848212624-a19eb35e2651?q=80&w=400&auto=format&fit=crop" alt="Flores Amarillas" class="polaroid-img">
-        <div class="polaroid-caption">Karina, siempre brillas 💥✨</div>
+        <div class="polaroid-caption">Yirelkis, siempre especial ✨</div>
       </div>
 
       <div class="typewriter-text">
@@ -756,17 +756,14 @@
       initAudioContext();
       playMagicChime();
 
-      // Ruptura de sello y fuegos artificiales
       const rect = waxSeal.getBoundingClientRect();
       spawnFlowerFireworks(rect.left + rect.width / 2, rect.top + rect.height / 2, 25);
       waxSeal.style.opacity = '0';
 
-      // Apertura 3D de solapa
       setTimeout(() => {
         envelopeFlap.classList.add('open');
       }, 200);
 
-      // Transición al regalo principal
       setTimeout(() => {
         envelopeScreen.classList.add('opened');
         mainViewport.classList.add('visible');
@@ -834,7 +831,7 @@
     }
 
     function spawnFlowerFireworks(x, y, count = 18) {
-      const floralEmojis = ['🌻', '🌼', '💥', '✨', '💛'];
+      const floralEmojis = ['🌻', '🌼', '✨', '💛'];
       const posX = x || bgCanvas.width / 2;
       const posY = y || bgCanvas.height / 2;
 
@@ -856,7 +853,6 @@
     function renderBg() {
       bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
 
-      // Estrellas
       stars.forEach(s => {
         s.alpha += s.speed;
         if (s.alpha > 1 || s.alpha < 0.2) s.speed = -s.speed;
@@ -866,7 +862,6 @@
         bgCtx.fill();
       });
 
-      // Rastro de chispas
       for (let i = trail.length - 1; i >= 0; i--) {
         const t = trail[i];
         t.alpha -= 0.04;
@@ -880,7 +875,6 @@
         }
       }
 
-      // Pétalos
       petals.forEach(p => {
         p.y += p.speedY;
         p.x += Math.sin(p.y * 0.01) + p.speedX;
@@ -899,7 +893,6 @@
         bgCtx.restore();
       });
 
-      // Fuegos artificiales
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
         p.x += p.vx;
@@ -970,7 +963,7 @@
     });
 
     /* ==========================================
-       5. CANVAS RASPABLE CON INDICADOR DE PROGRESO
+       5. CANVAS RASPABLE CON INDICADOR
        ========================================== */
     const scratchCanvas = document.getElementById('scratch-canvas');
     const scratchCtx = scratchCanvas.getContext('2d');
@@ -1080,7 +1073,7 @@
     window.addEventListener('touchend', () => isDrawing = false);
 
     /* ==========================================
-       6. MÁQUINA DE ESCRIBIR & CARTA OPCIÓN B
+       6. MÁQUINA DE ESCRIBIR CON MENSAJE PARA YIRELKIS
        ========================================== */
     const btnOpenModal = document.getElementById('btn-open-modal');
     const btnCloseModal = document.getElementById('btn-close-modal');
@@ -1093,16 +1086,17 @@
     let modalFlowerInterval = null;
     let typewriterTimeout = null;
 
+    // CARTA ADAPTADA
     const letterSegments = [
-      { text: "Para Karina, mi chispita 💥. Tu valentía para seguir sonriendo, incluso cuando los días pesan más de la cuenta, habla de lo ", gold: false },
-      { text: "hermoso que es tu corazón", gold: true },
-      { text: ". No necesitas demostrar nada ni ser perfecta; tus días grises también merecen ", gold: false },
-      { text: "paciencia, abrazos y calma", gold: true },
-      { text: ".\n\nQue estas flores amarillas te recuerden siempre lo mucho que vales y que mereces ", gold: false },
-      { text: "cosas bonitas que jamás duelan", gold: true },
-      { text: ". Gracias por dejarme estar cerca y ", gold: false },
-      { text: "conocer la increíble persona que eres.", gold: true },
-      { text: " 🌻💥✨", gold: false }
+      { text: "Yirelkis, ", gold: false },
+      { text: "te aprecio mucho", gold: true },
+      { text: " y eres una persona muy especial. Quería tener este detalle contigo y regalarte estas flores amarillas virtuales.\n\n", gold: false },
+      { text: "Siempre estaré profundamente agradecido por ", gold: false },
+      { text: "la gran persona que fuiste y eres en mi vida", gold: true },
+      { text: ", por cada momento compartido y por todo lo vivido.\n\n", gold: false },
+      { text: "Gracias por todo de corazón. Te deseo siempre lo mejor y un feliz día de las ", gold: false },
+      { text: "flores amarillas.", gold: true },
+      { text: " 🌻✨", gold: false }
     ];
 
     function startOrganicTypewriter(segments) {
@@ -1160,7 +1154,7 @@
 
       const flower = document.createElement('div');
       flower.className = 'modal-floating-flower';
-      flower.textContent = ['🌻', '🌼', '💥', '💛', '✨'][Math.floor(Math.random() * 5)];
+      flower.textContent = ['🌻', '🌼', '💛', '✨'][Math.floor(Math.random() * 4)];
       flower.style.left = Math.random() * 90 + 'vw';
       flower.style.fontSize = (Math.random() * 10 + 18) + 'px';
 
